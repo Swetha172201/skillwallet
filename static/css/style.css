@@ -1,0 +1,27 @@
+/* PocketSmart AI - Theme Colors da Swetha! */
+:root {
+  --primary: #FF6B6B;
+  --secondary: #4ECDC4;
+  --accent: #FFD93D;
+  --bg: #FFF8E7;
+}
+
+* {
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #FFF8E7 0%, #FFE5D9 100%);
+  min-height: 100vh;
+}
+
+/* Buttons - Unoda favorite style */
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(255,107,107,0.3);
+}
