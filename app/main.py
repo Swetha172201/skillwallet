@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse, FileResponse
 from fpdf import FPDF
 
 app = FastAPI()
-MODEL_NAME = "gemini-2.5-flash"
+
 DATA = {
   "total_budget": 100000,
   "remaining_budget": 500,
@@ -64,29 +64,12 @@ def pdf():
     pdf = FPDF()
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
-    
-    # 1. Mela 3 line
-    pdf.set_fill_color(13, 91, 150)
-    pdf.set_text_color(255,255,255)
-    pdf.set_font("Arial","B",10)
-    pdf.cell(0,10,"  Generate Recommendations", fill=True, ln=True, align='C')
-    pdf.ln(3)
-    pdf.set_text_color(13, 59, 102)
-    pdf.set_font("Arial","B",16)
-    pdf.cell(0,10,"Your Personalized Budget Plan", ln=True, align='C')
-    pdf.ln(2)
-    pdf.set_text_color(80,80,80)
-    pdf.set_font("Arial","",9)
-    pdf.multi_cell(0,5,f"Query: Create full 2BHK home interior budget plan for 1 lakh rupees, explain each room separately - living room, master bedroom, second bedroom")
-    pdf.ln(4)
-    
-    # 2. Budget Summary
     pdf.set_fill_color(13,139,242)
     pdf.set_text_color(255,255,255)
     pdf.set_font("Arial","B",11)
     pdf.cell(0,10,f"  Budget Summary - Total Rs.{DATA['total_budget']} | Remaining Rs.{DATA['remaining_budget']}", fill=True, ln=True)
     pdf.ln(3)
-    
+    pdf.set_text_color(0,0,0)
     for r in DATA["rooms"]:
         pdf.set_font("Arial","B",10)
         pdf.set_text_color(13,91,150)
@@ -96,11 +79,7 @@ def pdf():
         pdf.cell(45,5,"Item",1);pdf.cell(60,5,"Description",1);pdf.cell(18,5,"Price",1);pdf.cell(12,5,"Qty",1);pdf.cell(55,5,"Shopping Links",1,ln=True)
         pdf.set_font("Arial","",7)
         for it in r["items"]:
-            pdf.set_text_color(0,0,0)
-            pdf.cell(45,5,it["item"][:28],1);pdf.cell(60,5,it["desc"][:38],1);pdf.cell(18,5,f"Rs.{it['price']}",1);pdf.cell(12,5,str(it["qty"]),1)
-            pdf.set_text_color(13,139,242) # BLUE LINK DA!
-            pdf.cell(55,5,"Amazon Flipkart Ikea Myntra Ajio",1,ln=True)
-            pdf.set_text_color(0,0,0)
+            pdf.cell(45,5,it["item"][:28],1);pdf.cell(60,5,it["desc"][:38],1);pdf.cell(18,5,f"Rs.{it['price']}",1);pdf.cell(12,5,str(it["qty"]),1);pdf.cell(55,5,"Amazon Flipkart Ikea Myntra Ajio",1,ln=True)
         pdf.ln(3)
     pdf.output("PocketSmart.pdf")
-    return FileResponse("PocketSmart.pdf", filename="PocketSmart_BLUE_LINKS.pdf", media_type='application/pdf')
+    return FileResponse("PocketSmart.pdf", filename="PocketSmart_Full_Box.pdf", media_type='application/pdf')
