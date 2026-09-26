@@ -1,51 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Pocket Smart Home Planner</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<style>
-body{font-family:Arial;background:#f5f5f5;padding:20px}
-.box{background:white;padding:20px;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
-table{width:100%;border-collapse:collapse;margin:10px 0}
-th,td{border:1px solid #ddd;padding:8px;text-align:left}
-th{background:#e3f2fd}
-.room-title{background:#bbdefb;padding:10px;font-weight:bold;margin-top:15px;border-radius:6px}
-.link-tag{background:#2196f3;color:white;padding:3px 8px;border-radius:12px;font-size:11px;text-decoration:none;margin:2px;display:inline-block}
-.download-btn{background:#4caf50;color:white;padding:12px 20px;border:none;border-radius:8px;cursor:pointer;margin-top:20px;font-weight:bold}
-</style>
+    <title>Pocket Smart AI - Home Planner</title>
+    <style>
+        body { font-family: Arial; background: #f5f5f5; padding: 20px; text-align: center; }
+        .box { background: white; max-width: 600px; margin: auto; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        input, select, button { width: 90%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 16px; }
+        button { background: #6c5ce7; color: white; border: none; cursor: pointer; font-weight: bold; }
+        button:hover { background: #5a4bd1; }
+        #result { text-align: left; background: #f0f0ff; padding: 15px; border-radius: 10px; margin-top: 20px; white-space: pre-wrap; }
+    </style>
 </head>
 <body>
-<div class="box">
-<h2>🏠 Pocket Smart - AI Home Planner</h2>
-<form method="post" action="/home-planner">
-<input type="text" name="prompt" placeholder="Ex: 1 lakh budget 2BHK full plan" style="width:70%;padding:10px" required>
-<button type="submit" style="padding:10px 15px;background:#2196f3;color:white;border:none;border-radius:6px">Generate</button>
-</form>
-
-{% if result %}
-<div id="pdfArea" style="margin-top:20px">
-<div style="background:#e3f2fd;padding:15px;border-radius:8px;text-align:center">
-<h3>📊 Pocket Smart AI Budget Summary</h3>
-</div>
-<div>{{ result | safe }}</div>
-</div>
-
-<button class="download-btn" onclick="downloadBoxPDF()">📥 Download Full PDF (No Cut)</button>
-{% endif %}
-</div>
+    <div class="box">
+        <h2>🏠 Pocket Smart AI - Budget Planner</h2>
+        <p>2.5 Flash Real AI da!</p>
+        
+        <input id="income" type="number" placeholder="Monthly Income - ex: 30000">
+        <input id="prompt" type="text" placeholder="Ex: Monthly budget for student, family of 4">
+        <button onclick="generate()">✨ Generate Real Budget</button>
+        
+        <div id="result">Result inga varum da chellam...</div>
+    </div>
 
 <script>
-function downloadBoxPDF(){
-  const element = document.getElementById('pdfArea');
-  var opt = {
-    margin: 10,
-    filename: 'PocketSmart_HomePlan_Full.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-    pagebreak: { mode: ['css','legacy'] }
-  };
-  html2pdf().set(opt).from(element).save();
+async function generate() {
+    let income = document.getElementById('income').value || 30000;
+    let prompt = document.getElementById('prompt').value || "Monthly budget";
+    
+    document.getElementById('result').innerText = "⏳ Gemini 2.5 Flash generate pannuthu da... wait pannu chellam...";
+
+    try {
+        let res = await fetch('/generate', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ prompt: `${prompt} for income ${income}`, income: income })
+        });
+        
+        let data = await res.json();
+        
+        if(data.status === "success"){
+            document.getElementById('result').innerText = "✅ Success da! Real Budget:\n\n" + JSON.stringify(data.data, null, 2);
+        } else {
+            document.getElementById('result').innerText = "❌ Error da: " + JSON.stringify(data, null, 2);
+        }
+    } catch (e) {
+        document.getElementById('result').innerText = "❌ Error da: " + e;
+    }
 }
 </script>
 </body>
