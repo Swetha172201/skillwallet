@@ -9,4 +9,4 @@ An AI-powered personal finance assistant built with FastAPI + Uvicorn that helps
 ## 📦 How to Run
 ```bash
 pip install -r requirements.txt
-uvicorn app:app --reload
+python -m uvicorn app.app:app --reload
