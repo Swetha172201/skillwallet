@@ -1,8 +1,3 @@
-"""
-PocketSmart AI - __init__.py
-Ithu than package ah Python ku theriyavaikkuthu da Swetha
-"""
-
 import os
 from dotenv import load_dotenv
 
