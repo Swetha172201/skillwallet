@@ -14,4 +14,35 @@
   <div class="text-center mb-8">
     <div class="text-5xl mb-2">💰</div>
     <h1 class="text-2xl font-bold">PocketSmart AI</h1>
-    <p class="text-gray-500 text-sm">Login pann
+    <p class="text-gray-500 text-sm">Login pannu da Swetha!</p>
+  </div>
+
+  <form onsubmit="goDash(event)" class="space-y-4">
+    <div>
+      <label class="text-sm font-semibold">Email</label>
+      <input type="email" id="email" required class="input-field" value="swetha@gmail.com" placeholder="swetha@gmail.com">
+    </div>
+    <div>
+      <label class="text-sm font-semibold">Password</label>
+      <input type="password" id="pass" required class="input-field" value="123456" placeholder="••••••">
+    </div>
+    
+    <button type="submit" class="w-full btn-primary py-3">
+      Login → Dashboard
+    </button>
+  </form>
+
+  <p class="text-center text-xs text-gray-400 mt-6">Gemini 2.5 Flash Connected ⚡</p>
+  <p class="text-center text-xs mt-2"><a href="/" class="text-[#FF6B6B] underline">Skip login → Dashboard</a></p>
+</div>
+
+<script>
+function goDash(e){
+  e.preventDefault();
+  localStorage.setItem('user', document.getElementById('email').value);
+  window.location.href = "/";
+}
+</script>
+<script src="/static/js/app.js"></script>
+</body>
+</html>
